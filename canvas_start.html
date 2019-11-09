@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	    display: block;
+	}
+</style>
+</head>
+<body>
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500"  ></canvas>
+    <input type = "color" id = "picker"/>
+</body>
+
+<script>
+	var canvas = document.querySelector("#myCanvas");
+	canvas.height = window.innerHeight*0.8;
+	canvas.width = window.innerWidth*0.8;
+
+	var ctx = canvas.getContext("2d");
+  var color = "red";
+  ctx.fillStyle = color;
+
+	var drawing = true;
+  function draw(actualX, actualY) {
+    console.log("Drawing!");
+		if (drawing == true){
+			ctx.beginPath();
+    	ctx.arc(actualX , actualY , 30, 0, 2*Math.PI);
+    	// last 2 numbers- starting and end angle.
+    	ctx.fill();
+		}
+  }
+
+	canvas.addEventListener("mousemove", function (e){
+		console.log(e.y);
+		draw(e.x , e.y);
+	})
+
+	function pen(e) {
+		if (e.key == "b" || e.key == 'B') {
+			console.log(e.key);
+			ctx.fillStyle = "blue";
+		}
+		if (e.key == "r" || e.key == 'R') {
+			console.log(e.key);
+			ctx.fillStyle = "red";
+		}
+		if (e.key == "g" || e.key == 'G') {
+			console.log(e.key);
+			ctx.fillStyle = "green";
+		}
+		if (e.key == "y" || e.key == 'Y') {
+			console.log(e.key);
+			ctx.fillStyle = "yellow";
+		}
+		if (e.keyCode == 32) {
+			console.log(e.keyCode);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		}
+		if (e.keyCode == 38) {
+			console.log(e.keyCode);
+			drawing = false;
+		}
+		if (e.keyCode == 40) {
+			console.log(e.keyCode);
+			drawing = true;
+		}
+	}
+
+	window.addEventListener("keydown", function (e){
+			console.log(e.key);
+			pen(e);
+		})
+
+function change() {
+	ctx.fillStyle = colorPicker.value;
+}
+
+	var colorPicker = document.querySelector("#picker");
+	colorPicker.addEventListener("input", function (){
+		console.log(this.value);
+		change();
+		})
+</script>
+
+</html>
